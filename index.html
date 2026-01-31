@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title> محمد كامل عيد ابراهيم </title>
+<title>Medical Records — محمد كامل عيد ابراهيم</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
@@ -104,6 +104,7 @@ body{
 .patient-desc{
   font-size:.82rem;color:var(--text-mid);
   max-width:500px;line-height:1.55;
+  white-space:pre-line;
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -181,7 +182,7 @@ body{
   box-shadow:0 4px 14px rgba(0,0,0,.1);
 }
 
-/* placeholder shown when no real image is available */
+/* placeholder */
 .placeholder{
   width:100%;height:100%;
   display:flex;flex-direction:column;
@@ -191,7 +192,7 @@ body{
 .placeholder svg{width:28px;height:28px;opacity:.25;color:var(--accent)}
 .placeholder span{font-size:.67rem;color:var(--text-muted);font-weight:500;text-align:center;padding:0 6px}
 
-/* real image (swapped in by JS when file loads) */
+/* real image */
 .grid-item img{
   width:100%;height:100%;object-fit:cover;display:block;
   transition:transform .3s;
@@ -208,11 +209,11 @@ body{
 }
 
 /* ════════════════════════════════════════════════════════════
-   LIGHTBOX
+   LIGHTBOX  (updated with arrows + counter)
    ════════════════════════════════════════════════════════════ */
 .lightbox{
   position:fixed;inset:0;
-  background:rgba(8,12,20,.85);
+  background:rgba(8,12,20,.88);
   backdrop-filter:blur(5px);
   z-index:200;
   display:flex;align-items:center;justify-content:center;
@@ -220,27 +221,78 @@ body{
   transition:opacity .22s;
 }
 .lightbox.open{opacity:1;pointer-events:auto}
+
+/* main image */
+.lb-img-wrap{
+  position:relative;
+  max-width:82vw;
+  max-height:80vh;
+  display:flex;align-items:center;justify-content:center;
+}
 .lightbox img{
-  max-width:90vw;max-height:85vh;
+  max-width:100%;max-height:80vh;
   object-fit:contain;border-radius:8px;
   box-shadow:0 8px 40px rgba(0,0,0,.3);
   transform:scale(.95);transition:transform .25s;
+  display:block;
 }
 .lightbox.open img{transform:scale(1)}
+
+/* ── close button ── */
 .lb-close{
   position:fixed;top:18px;right:18px;
-  width:36px;height:36px;border-radius:50%;
+  width:38px;height:38px;border-radius:50%;
   background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);
   color:#fff;display:flex;align-items:center;justify-content:center;
   cursor:pointer;transition:background .18s;z-index:201;
 }
-.lb-close:hover{background:rgba(255,255,255,.2)}
-.lb-close svg{width:17px;height:17px}
+.lb-close:hover{background:rgba(255,255,255,.22)}
+.lb-close svg{width:18px;height:18px}
+
+/* ── arrow buttons (prev / next) ── */
+.lb-arrow{
+  position:fixed;top:50%;
+  width:44px;height:44px;
+  transform:translateY(-50%);
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:50%;
+  color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  transition:background .18s, transform .18s;
+  z-index:201;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.lb-arrow:hover{background:rgba(255,255,255,.24)}
+.lb-arrow:active{transform:translateY(-50%) scale(.92)}
+.lb-arrow svg{width:22px;height:22px}
+.lb-arrow--prev{left:14px}
+.lb-arrow--next{right:14px}
+
+/* hide arrows when only 1 image */
+.lb-arrow.hidden{opacity:0;pointer-events:none}
+
+/* ── caption + counter ── */
+.lb-footer{
+  position:fixed;
+  bottom:22px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:12px;
+  z-index:201;
+}
 .lb-caption{
-  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
-  background:rgba(8,12,20,.65);color:#fff;
+  background:rgba(8,12,20,.62);color:#fff;
   font-size:.79rem;padding:7px 16px;border-radius:18px;
-  white-space:nowrap;z-index:201;
+  white-space:nowrap;
+  max-width:60vw;overflow:hidden;text-overflow:ellipsis;
+}
+.lb-counter{
+  background:rgba(8,12,20,.62);color:rgba(255,255,255,.7);
+  font-size:.72rem;font-weight:500;
+  padding:7px 12px;border-radius:18px;
+  white-space:nowrap;
+  min-width:46px;text-align:center;
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -253,6 +305,11 @@ body{
   .patient{margin-top:18px}
   .sec-body-inner{padding:0 14px 16px}
   .nav a{font-size:.73rem;padding:5px 8px}
+  /* smaller arrows on mobile */
+  .lb-arrow{width:36px;height:36px}
+  .lb-arrow svg{width:18px;height:18px}
+  .lb-arrow--prev{left:6px}
+  .lb-arrow--next{right:6px}
 }
 @media(max-width:380px){
   .grid{grid-template-columns:repeat(2,1fr)}
@@ -264,13 +321,18 @@ body{
 <!-- ────── HEADER ────── -->
 <header class="header">
   <div class="header-inner">
-    <a href="#" class="logo"><span class="logo-dot"> </span>Medical Records</a>
+    <a href="#" class="logo"><span class="logo-dot"></span>السجلات الطبية </a>
     <nav class="nav" id="nav">
-      <a href="#brain-mri" class="active">Brain MRI</a>
-      <a href="#nuclear">Nuclear Scan</a>
-      <a href="#lab">Lab Tests</a>
-      <a href="#الفقرات_العنقية">الفقرات_العنقية</a>
-      <a href="#reports">Reports</a>
+      <a href="#brain-mri" class="active">رنين المخ</a>
+      <a href="#nuclear">مسح ذري</a>
+      <a href="#lab">التحاليل</a>
+      <a href="#cervical">
+        
+رنين الفقرات العنقية
+
+
+      </a>
+      <a href="#reports">التقرير</a>
     </nav>
   </div>
 </header>
@@ -284,31 +346,26 @@ body{
       </svg>
     </div>
     <div>
-      <div class="patient-name">محمد كامل عيد ابراهيم </div>
+      <div class="patient-name">محمد كامل عيد إبراهيم</div>
       <div class="patient-meta">
-        <span>67 سنة </span>
-        <span>بداية التعب : 28/11/2025</span>
+        <span>العمر: 67 سنة</span>
+        <span>بداية التعب: 28 / 11 / 2025</span>
       </div>
-      <div class="patient-desc">
-وصف الحالة :: عنده دوخة دايما ومش بيقوم لوحده نهائي 
-وفي المستشفى عملوا ليه رنين علي المخ ومقطعية سليمة. عمل بزل نخاع فيه التهاب علي المخ اخد علاجه الالتهاب خف بس المريض مخفش نهائيا
+      <div class="patient-desc">وصف الحالة:
 
-ودكتور البطانة قال مفيهوش حاجة
+عنده دوخة دايما ومش بيقوم لوحده نهائيا.
+في المستشفى عملوا ليه رنين على المخ ومقطعية سليمة.
+عمل بزل نخاع — فيه التهاب على المخ — اخد علاجه والتهاب خف، بس المريض مش خف نهائيا.
 
-دكتور الأنف والأذن قال مفيهوش حاجة
+دكتور البطانة قال مفيهوش حاجة.
+دكتور الأنف والأذن قال مفيهوش حاجة.
+ومع ذلك مفيش أي تحسن نهائيا.
 
-ومع ذلك مفيش اي تحسن نهائي 
+عينيه معظم الوقت قافلاها، ولما بيفتح عينه مش زي الأول ومش طبيعية.
+دايما دايخ ومش عارف يقف نهائيا ولا يتحرك، وتايه معظم الوقت، ولسانه تقيل.
 
-وعنيه  معظم الوقت قافلاها ولما بيفتح عينه مش زي الاول مش طبيعية
-
-ودايما دايخ ومش عارف يقف نهائيا  ولا يتحرك وتايه معظم الوقت ولسانه تقيل
-               . 
-*وعمل 5 جلسات فصل بلازما بس تعب اكتر*
-         . 
-أخد علاج كتير مفيش تحسن
-
-
-      </div>
+عمل 5 جلسات فصل بلازما — بس تعب أكتر.
+أخد علاج كتير — مفيش تحسن.</div>
     </div>
   </div>
 </div>
@@ -316,7 +373,7 @@ body{
 <!-- ────── SECTIONS ────── -->
 <div class="sections">
 
-  <!-- 1 Brain MRI -->
+  <!-- 1 رنين المخ -->
   <div class="section open" id="brain-mri">
     <div class="sec-head" onclick="toggle(this)">
       <div class="sec-head-left">
@@ -324,8 +381,8 @@ body{
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 2.4-1.2 4.5-3 5.7V17a1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1v-2.3C6.2 13.5 5 11.4 5 9a7 7 0 0 1 7-7z"/><path d="M9 22h6"/><path d="M10 17v3"/><path d="M14 17v3"/></svg>
         </div>
         <div>
-          <div class="sec-title">Brain MRI Images</div>
-          <div class="sec-count">4 images</div>
+          <div class="sec-title">رنين المخ</div>
+          <div class="sec-count">11 صورة</div>
         </div>
       </div>
       <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -335,7 +392,7 @@ body{
     </div></div>
   </div>
 
-  <!-- 2 Nuclear Scan -->
+  <!-- 2 مسح ذري -->
   <div class="section" id="nuclear">
     <div class="sec-head" onclick="toggle(this)">
       <div class="sec-head-left">
@@ -343,8 +400,8 @@ body{
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8" stroke-dasharray="4 3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
         </div>
         <div>
-          <div class="sec-title">Nuclear Scan Images</div>
-          <div class="sec-count">3 images</div>
+          <div class="sec-title">مسح ذري</div>
+          <div class="sec-count">8 صور</div>
         </div>
       </div>
       <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -354,7 +411,7 @@ body{
     </div></div>
   </div>
 
-  <!-- 3 Lab Tests -->
+  <!-- 3 التحاليل -->
   <div class="section" id="lab">
     <div class="sec-head" onclick="toggle(this)">
       <div class="sec-head-left">
@@ -362,8 +419,8 @@ body{
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6v5l4 8H5l4-8V3z"/><path d="M9 3H7"/><path d="M15 3h2"/><path d="M6 14h12"/></svg>
         </div>
         <div>
-          <div class="sec-title">Laboratory Tests</div>
-          <div class="sec-count">3 images</div>
+          <div class="sec-title">التحاليل</div>
+          <div class="sec-count">10 صور</div>
         </div>
       </div>
       <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -373,25 +430,26 @@ body{
     </div></div>
   </div>
 
-  <!-- 4 الفقرات_العنقيةlogy -->
-  <div class="section" id="الفقرات_العنقية">
+  <!-- 4 الفقرات العنقية -->
+  <div class="section" id="cervical">
     <div class="sec-head" onclick="toggle(this)">
       <div class="sec-head-left">
         <div class="sec-icon ic-teal">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 6v5c0 5 3.5 9.5 8 11 4.5-1.5 8-6 8-11V6l-8-4z"/><path d="M9 12l2 2 4-4"/></svg>
         </div>
         <div>
-          <div class="sec-title">الفقرات_العنقية </div>
+          <div class="sec-title">رنين الفقرات العنقية</div>
+          <div class="sec-count">6 صور</div>
         </div>
       </div>
       <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
     </div>
     <div class="sec-body"><div class="sec-body-inner">
-      <div class="grid" id="g-الفقرات_العنقية"></div>
+      <div class="grid" id="g-cervical"></div>
     </div></div>
   </div>
 
-  <!-- 5 Medical Reports -->
+  <!-- 5 التقرير -->
   <div class="section" id="reports">
     <div class="sec-head" onclick="toggle(this)">
       <div class="sec-head-left">
@@ -399,8 +457,8 @@ body{
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
         </div>
         <div>
-          <div class="sec-title">Medical Reports</div>
-          <div class="sec-count">2 images</div>
+          <div class="sec-title">التقرير</div>
+          <div class="sec-count">3 صور</div>
         </div>
       </div>
       <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -412,79 +470,101 @@ body{
 
 </div><!-- /sections -->
 
-<!-- ────── LIGHTBOX ────── -->
+<!-- ════════════════════════════════════════════════════════════
+     LIGHTBOX  — arrows + counter added
+     ════════════════════════════════════════════════════════════ -->
 <div class="lightbox" id="lb">
+
+  <!-- close -->
   <button class="lb-close" onclick="closeLB()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
   </button>
+
+  <!-- prev arrow -->
+  <button class="lb-arrow lb-arrow--prev" id="lb-prev" onclick="navigate(-1)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+
+  <!-- image -->
   <img src="" alt="" id="lb-img"/>
-  <div class="lb-caption" id="lb-cap"></div>
+
+  <!-- next arrow -->
+  <button class="lb-arrow lb-arrow--next" id="lb-next" onclick="navigate(1)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+
+  <!-- footer: caption + counter -->
+  <div class="lb-footer">
+    <div class="lb-caption" id="lb-cap"></div>
+    <div class="lb-counter" id="lb-counter">1 / 1</div>
+  </div>
 </div>
 
 <!-- ════════════════════════════════════════════════════════════
-     DATA — update file paths & labels here when you add images.
+     DATA
      ════════════════════════════════════════════════════════════ -->
 <script>
 const DATA = {
   brain:[
-    {src:"./الرنين/0.jpeg",      label:"  "},
-    {src:"./الرنين/1.jpeg",      label:"  "},
-    {src:"./الرنين/2.jpeg",     label:""},
-    {src:"./الرنين/3.jpeg",      label:"Coronal "},
-    {src:"./الرنين/4.jpeg",      label:"  "},
-    {src:"./الرنين/5.jpeg",      label:"  "},
-    {src:"./الرنين/6.jpeg",      label:"  "},
-    {src:"./الرنين/7.jpeg",      label:"  "},
-    {src:"./الرنين/8.jpeg",      label:"  "},
-    {src:"./الرنين/9.jpeg",      label:""},
-    {src:"./الرنين/10.jpeg",      label:""},
-
-    
+    {src:"./الرنين/0.jpeg",  label:"رنين المخ – صورة 1"},
+    {src:"./الرنين/1.jpeg",  label:"رنين المخ – صورة 2"},
+    {src:"./الرنين/2.jpeg",  label:"رنين المخ – صورة 3"},
+    {src:"./الرنين/3.jpeg",  label:"رنين المخ – صورة 4"},
+    {src:"./الرنين/4.jpeg",  label:"رنين المخ – صورة 5"},
+    {src:"./الرنين/5.jpeg",  label:"رنين المخ – صورة 6"},
+    {src:"./الرنين/6.jpeg",  label:"رنين المخ – صورة 7"},
+    {src:"./الرنين/7.jpeg",  label:"رنين المخ – صورة 8"},
+    {src:"./الرنين/8.jpeg",  label:"رنين المخ – صورة 9"},
+    {src:"./الرنين/9.jpeg",  label:"رنين المخ – صورة 10"},
+    {src:"./الرنين/10.jpeg", label:"رنين المخ – صورة 11"}
   ],
   nuclear:[
-    {src:"./مسح ذري/1.jpeg",     label:""},
-    {src:"./مسح ذري/2.jpeg",label:""},
-    {src:"./مسح ذري/3.jpeg", label:""},  
-    {src:"./مسح ذري/4.jpeg", label:""},  
-    {src:"./مسح ذري/5.jpeg", label:""},  
-    {src:"./مسح ذري/6.jpeg", label:""},  
-    {src:"./مسح ذري/7.jpeg", label:""},  
-    {src:"./مسح ذري/8.jpeg", label:""},  
+    {src:"./مسح ذري/1.jpeg", label:"مسح ذري – صورة 1"},
+    {src:"./مسح ذري/2.jpeg", label:"مسح ذري – صورة 2"},
+    {src:"./مسح ذري/3.jpeg", label:"مسح ذري – صورة 3"},
+    {src:"./مسح ذري/4.jpeg", label:"مسح ذري – صورة 4"},
+    {src:"./مسح ذري/5.jpeg", label:"مسح ذري – صورة 5"},
+    {src:"./مسح ذري/6.jpeg", label:"مسح ذري – صورة 6"},
+    {src:"./مسح ذري/7.jpeg", label:"مسح ذري – صورة 7"},
+    {src:"./مسح ذري/8.jpeg", label:"مسح ذري – صورة 8"}
   ],
   lab:[
-    {src:"./التحاليل/1.jpeg",         label:""},
-    {src:"./التحاليل/2.jpeg",  label:""},
-    {src:"./التحاليل/3.jpeg", label:""},
-    {src:"./التحاليل/4.jpeg", label:""},
-    {src:"./التحاليل/5.jpeg", label:""},
-    {src:"./التحاليل/6.jpeg", label:""},
-    {src:"./التحاليل/7.jpeg", label:""},
-    {src:"./التحاليل/8.jpeg", label:""},
-        {src:"./التحاليل/9.jpeg", label:""},
-    {src:"./التحاليل/10.jpeg", label:""},
-
+    {src:"./التحاليل/1.jpeg",  label:"التحاليل – صورة 1"},
+    {src:"./التحاليل/2.jpeg",  label:"التحاليل – صورة 2"},
+    {src:"./التحاليل/3.jpeg",  label:"التحاليل – صورة 3"},
+    {src:"./التحاليل/4.jpeg",  label:"التحاليل – صورة 4"},
+    {src:"./التحاليل/5.jpeg",  label:"التحاليل – صورة 5"},
+    {src:"./التحاليل/6.jpeg",  label:"التحاليل – صورة 6"},
+    {src:"./التحاليل/7.jpeg",  label:"التحاليل – صورة 7"},
+    {src:"./التحاليل/8.jpeg",  label:"التحاليل – صورة 8"},
+    {src:"./التحاليل/9.jpeg",  label:"التحاليل – صورة 9"},
+    {src:"./التحاليل/10.jpeg", label:"التحاليل – صورة 10"}
   ],
-  الفقرات_العنقية:[
-    {src:"./رنين الفقرات العنقية/1.jpeg",   label:""},
-    {src:"./رنين الفقرات العنقية/2.jpeg", label:""},
-        {src:"./رنين الفقرات العنقية/3.jpeg", label:""},
-    {src:"./رنين الفقرات العنقية/4.jpeg", label:""},
-    {src:"./رنين الفقرات العنقية/5.jpeg", label:""},
-    {src:"./رنين الفقرات العنقية/6.jpeg", label:""},
-
+  cervical:[
+    {src:"./رنين الفقرات العنقية/1.jpeg", label:"الفقرات العنقية – صورة 1"},
+    {src:"./رنين الفقرات العنقية/2.jpeg", label:"الفقرات العنقية – صورة 2"},
+    {src:"./رنين الفقرات العنقية/3.jpeg", label:"الفقرات العنقية – صورة 3"},
+    {src:"./رنين الفقرات العنقية/4.jpeg", label:"الفقرات العنقية – صورة 4"},
+    {src:"./رنين الفقرات العنقية/5.jpeg", label:"الفقرات العنقية – صورة 5"},
+    {src:"./رنين الفقرات العنقية/6.jpeg", label:"الفقرات العنقية – صورة 6"}
   ],
   reports:[
-    {src:"./التقرير/1.jpeg",    label:""},
-    {src:"./التقرير/2.jpeg",label:""},
-    {src:"./التقرير/3.jpeg",label:""},
-
+    {src:"./التقرير/1.jpeg", label:"التقرير – صورة 1"},
+    {src:"./التقرير/2.jpeg", label:"التقرير – صورة 2"},
+    {src:"./التقرير/3.jpeg", label:"التقرير – صورة 3"}
   ]
 };
 
+/* ════════════════════════════════════════════════════════════
+   LIGHTBOX STATE — tracks the current section's array + index
+   ════════════════════════════════════════════════════════════ */
+let lbItems   = [];   // current section image array
+let lbIndex   = 0;    // current position
+
 /* ── Render grid ── */
 function render(id, items){
-  document.getElementById(id).innerHTML = items.map(it =>
-    `<div class="grid-item" onclick="openLB('${it.src}','${it.label}')">
+  document.getElementById(id).innerHTML = items.map((it, i) =>
+    `<div class="grid-item" onclick="openLB('${id}', ${i})">
        <div class="placeholder">
          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
            <rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
@@ -495,50 +575,103 @@ function render(id, items){
      </div>`
   ).join('');
 
-  // try loading real images — replaces placeholder if file exists
-  items.forEach((it,i) => {
+  // swap placeholder → real image if file loads
+  items.forEach((it, i) => {
     const img = new Image();
     img.onload = () => {
       const card = document.querySelectorAll(`#${id} .grid-item`)[i];
+      if(!card) return;
       const ph = card.querySelector('.placeholder');
+      if(!ph) return;
       const real = document.createElement('img');
-      real.src = it.src; real.alt = it.label;
+      real.src = it.src;
+      real.alt = it.label;
       ph.replaceWith(real);
     };
     img.src = it.src;
   });
 }
 
-render('g-brain',   DATA.brain);
-render('g-nuclear', DATA.nuclear);
-render('g-lab',     DATA.lab);
-render('g-الفقرات_العنقية',  DATA.الفقرات_العنقية);
-render('g-reports', DATA.reports);
+render('g-brain',    DATA.brain);
+render('g-nuclear',  DATA.nuclear);
+render('g-lab',      DATA.lab);
+render('g-cervical', DATA.cervical);
+render('g-reports',  DATA.reports);
 
-/* ── Toggle section ── */
-function toggle(head){ head.closest('.section').classList.toggle('open') }
+/* ── map grid-id → DATA key ── */
+const gridToData = {
+  'g-brain':    'brain',
+  'g-nuclear':  'nuclear',
+  'g-lab':      'lab',
+  'g-cervical': 'cervical',
+  'g-reports':  'reports'
+};
 
-/* ── Lightbox ── */
-function openLB(src, cap){
-  document.getElementById('lb-img').src = src;
-  document.getElementById('lb-cap').textContent = cap;
+/* ════════════════════════════════════════════════════════════
+   LIGHTBOX FUNCTIONS
+   ════════════════════════════════════════════════════════════ */
+
+function openLB(gridId, index){
+  const key   = gridToData[gridId];
+  lbItems     = DATA[key];
+  lbIndex     = index;
+  showImage();
   document.getElementById('lb').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
 }
+
+/* show current image + update caption & counter */
+function showImage(){
+  const it = lbItems[lbIndex];
+  document.getElementById('lb-img').src   = it.src;
+  document.getElementById('lb-img').alt   = it.label;
+  document.getElementById('lb-cap').textContent    = it.label;
+  document.getElementById('lb-counter').textContent = (lbIndex + 1) + ' / ' + lbItems.length;
+
+  // hide arrows if only one image
+  const hide = lbItems.length <= 1;
+  document.getElementById('lb-prev').classList.toggle('hidden', hide);
+  document.getElementById('lb-next').classList.toggle('hidden', hide);
+}
+
+/* move by +1 or -1, wraps around */
+function navigate(dir){
+  lbIndex = (lbIndex + dir + lbItems.length) % lbItems.length;
+  showImage();
+}
+
 function closeLB(){
   document.getElementById('lb').classList.remove('open');
-  document.body.style.overflow='';
+  document.body.style.overflow = '';
 }
-document.getElementById('lb').addEventListener('click', function(e){ if(e.target===this) closeLB() });
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeLB() });
 
-/* ── Nav highlight on scroll ── */
+/* ── close on backdrop click ── */
+document.getElementById('lb').addEventListener('click', function(e){
+  if(e.target === this) closeLB();
+});
+
+/* ── keyboard: Escape / Left / Right ── */
+document.addEventListener('keydown', function(e){
+  if(!document.getElementById('lb').classList.contains('open')) return;
+  if(e.key === 'Escape')     closeLB();
+  if(e.key === 'ArrowLeft')  navigate(-1);
+  if(e.key === 'ArrowRight') navigate(1);
+});
+
+/* ════════════════════════════════════════════════════════════
+   SECTION TOGGLE
+   ════════════════════════════════════════════════════════════ */
+function toggle(head){ head.closest('.section').classList.toggle('open') }
+
+/* ════════════════════════════════════════════════════════════
+   NAV HIGHLIGHT ON SCROLL
+   ════════════════════════════════════════════════════════════ */
 const navAs = document.querySelectorAll('.nav a');
 const secs  = document.querySelectorAll('.section[id]');
 window.addEventListener('scroll', () => {
-  let cur='';
+  let cur = '';
   secs.forEach(s => { if(window.scrollY + 80 >= s.offsetTop) cur = s.id });
-  navAs.forEach(a => a.classList.toggle('active', a.getAttribute('href')==='#'+cur));
+  navAs.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
 });
 </script>
 </body>
