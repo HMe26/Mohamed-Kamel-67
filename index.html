@@ -382,7 +382,6 @@ body{
         </div>
         <div>
           <div class="sec-title">رنين المخ</div>
-          <div class="sec-count">11 صورة</div>
         </div>
       </div>
       <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -401,7 +400,6 @@ body{
         </div>
         <div>
           <div class="sec-title">مسح ذري</div>
-          <div class="sec-count">8 صور</div>
         </div>
       </div>
       <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -420,7 +418,6 @@ body{
         </div>
         <div>
           <div class="sec-title">التحاليل</div>
-          <div class="sec-count">10 صور</div>
         </div>
       </div>
       <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -439,7 +436,6 @@ body{
         </div>
         <div>
           <div class="sec-title">رنين الفقرات العنقية</div>
-          <div class="sec-count">6 صور</div>
         </div>
       </div>
       <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -458,7 +454,6 @@ body{
         </div>
         <div>
           <div class="sec-title">التقرير</div>
-          <div class="sec-count">3 صور</div>
         </div>
       </div>
       <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -506,52 +501,57 @@ body{
 <script>
 const DATA = {
   brain:[
-    {src:"./الرنين/0.jpeg",  label:"رنين المخ – صورة 1"},
-    {src:"./الرنين/1.jpeg",  label:"رنين المخ – صورة 2"},
-    {src:"./الرنين/2.jpeg",  label:"رنين المخ – صورة 3"},
-    {src:"./الرنين/3.jpeg",  label:"رنين المخ – صورة 4"},
-    {src:"./الرنين/4.jpeg",  label:"رنين المخ – صورة 5"},
-    {src:"./الرنين/5.jpeg",  label:"رنين المخ – صورة 6"},
-    {src:"./الرنين/6.jpeg",  label:"رنين المخ – صورة 7"},
-    {src:"./الرنين/7.jpeg",  label:"رنين المخ – صورة 8"},
-    {src:"./الرنين/8.jpeg",  label:"رنين المخ – صورة 9"},
-    {src:"./الرنين/9.jpeg",  label:"رنين المخ – صورة 10"},
-    {src:"./الرنين/10.jpeg", label:"رنين المخ – صورة 11"}
+    {src:"./الرنين/0.jpeg",  label:""},
+    {src:"./الرنين/1.jpeg",  label:""},
+    {src:"./الرنين/2.jpeg",  label:""},
+    {src:"./الرنين/3.jpeg",  label:""},
+    {src:"./الرنين/4.jpeg",  label:""},
+    {src:"./الرنين/5.jpeg",  label:""},
+    {src:"./الرنين/6.jpeg",  label:""},
+    {src:"./الرنين/7.jpeg",  label:""},
+    {src:"./الرنين/8.jpeg",  label:""},
+    {src:"./الرنين/9.jpeg",  label:""},
+    {src:"./الرنين/10.jpeg", label:""}
   ],
   nuclear:[
-    {src:"./مسح ذري/1.jpeg", label:"مسح ذري – صورة 1"},
-    {src:"./مسح ذري/2.jpeg", label:"مسح ذري – صورة 2"},
-    {src:"./مسح ذري/3.jpeg", label:"مسح ذري – صورة 3"},
-    {src:"./مسح ذري/4.jpeg", label:"مسح ذري – صورة 4"},
-    {src:"./مسح ذري/5.jpeg", label:"مسح ذري – صورة 5"},
-    {src:"./مسح ذري/6.jpeg", label:"مسح ذري – صورة 6"},
-    {src:"./مسح ذري/7.jpeg", label:"مسح ذري – صورة 7"},
-    {src:"./مسح ذري/8.jpeg", label:"مسح ذري – صورة 8"}
+  {src:"./مسح ذري/-1.jpeg", label:" "},
+  {src:"./مسح ذري/-2.jpeg", label:" "},
+  {src:"./مسح ذري/-3.jpeg", label:" "},
+  {src:"./مسح ذري/-4.jpeg", label:" "},
+
+    {src:"./مسح ذري/1.jpeg", label:" "},
+    {src:"./مسح ذري/2.jpeg", label:" "},
+    {src:"./مسح ذري/3.jpeg", label:" "},
+    {src:"./مسح ذري/4.jpeg", label:" "},
+    {src:"./مسح ذري/5.jpeg", label:" "},
+    {src:"./مسح ذري/6.jpeg", label:" "},
+    {src:"./مسح ذري/7.jpeg", label:" "},
+    {src:"./مسح ذري/8.jpeg", label:" "}
   ],
   lab:[
-    {src:"./التحاليل/1.jpeg",  label:"التحاليل – صورة 1"},
-    {src:"./التحاليل/2.jpeg",  label:"التحاليل – صورة 2"},
-    {src:"./التحاليل/3.jpeg",  label:"التحاليل – صورة 3"},
-    {src:"./التحاليل/4.jpeg",  label:"التحاليل – صورة 4"},
-    {src:"./التحاليل/5.jpeg",  label:"التحاليل – صورة 5"},
-    {src:"./التحاليل/6.jpeg",  label:"التحاليل – صورة 6"},
-    {src:"./التحاليل/7.jpeg",  label:"التحاليل – صورة 7"},
-    {src:"./التحاليل/8.jpeg",  label:"التحاليل – صورة 8"},
-    {src:"./التحاليل/9.jpeg",  label:"التحاليل – صورة 9"},
-    {src:"./التحاليل/10.jpeg", label:"التحاليل – صورة 10"}
+    {src:"./التحاليل/1.jpeg",  label:""},
+    {src:"./التحاليل/2.jpeg",  label:""},
+    {src:"./التحاليل/3.jpeg",  label:""},
+    {src:"./التحاليل/4.jpeg",  label:""},
+    {src:"./التحاليل/5.jpeg",  label:""},
+    {src:"./التحاليل/6.jpeg",  label:""},
+    {src:"./التحاليل/7.jpeg",  label:""},
+    {src:"./التحاليل/8.jpeg",  label:""},
+    {src:"./التحاليل/9.jpeg",  label:""},
+    {src:"./التحاليل/10.jpeg", label:""}
   ],
   cervical:[
-    {src:"./رنين الفقرات العنقية/1.jpeg", label:"الفقرات العنقية – صورة 1"},
-    {src:"./رنين الفقرات العنقية/2.jpeg", label:"الفقرات العنقية – صورة 2"},
-    {src:"./رنين الفقرات العنقية/3.jpeg", label:"الفقرات العنقية – صورة 3"},
-    {src:"./رنين الفقرات العنقية/4.jpeg", label:"الفقرات العنقية – صورة 4"},
-    {src:"./رنين الفقرات العنقية/5.jpeg", label:"الفقرات العنقية – صورة 5"},
-    {src:"./رنين الفقرات العنقية/6.jpeg", label:"الفقرات العنقية – صورة 6"}
+    {src:"./رنين الفقرات العنقية/1.jpeg", label:""},
+    {src:"./رنين الفقرات العنقية/2.jpeg", label:""},
+    {src:"./رنين الفقرات العنقية/3.jpeg", label:""},
+    {src:"./رنين الفقرات العنقية/4.jpeg", label:""},
+    {src:"./رنين الفقرات العنقية/5.jpeg", label:""},
+    {src:"./رنين الفقرات العنقية/6.jpeg", label:""}
   ],
   reports:[
-    {src:"./التقرير/1.jpeg", label:"التقرير – صورة 1"},
-    {src:"./التقرير/2.jpeg", label:"التقرير – صورة 2"},
-    {src:"./التقرير/3.jpeg", label:"التقرير – صورة 3"}
+    {src:"./التقرير/1.jpeg", label:" "},
+    {src:"./التقرير/2.jpeg", label:"   "},
+    {src:"./التقرير/3.jpeg", label:" "}
   ]
 };
 
